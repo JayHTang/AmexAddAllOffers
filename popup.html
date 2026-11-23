@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Amex Offer Adder</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 14px;
+        width: 320px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-size: 13px;
+        line-height: 1.4;
+        color: #1a1f36;
+        background: #ffffff;
+      }
+
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+
+      .header h1 {
+        margin: 0;
+        font-size: 15px;
+        font-weight: 700;
+        color: #002663;
+      }
+
+      .icon-btn {
+        border: 1px solid #d0d7de;
+        background: #f6f8fa;
+        color: #1a1f36;
+        border-radius: 6px;
+        padding: 4px 10px;
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+      }
+
+      .icon-btn:hover:not(:disabled) {
+        background: #eaeef2;
+      }
+
+      .icon-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      .card {
+        background: #f5f7fa;
+        border: 1px solid #e1e6ef;
+        border-radius: 8px;
+        padding: 12px;
+        margin-bottom: 12px;
+      }
+
+      .offer-count {
+        font-size: 14px;
+        font-weight: 600;
+        color: #1a1f36;
+      }
+
+      .offer-subtext {
+        margin-top: 4px;
+        font-size: 12px;
+        color: #5a657d;
+        min-height: 16px;
+      }
+
+      .progress-wrap {
+        margin-top: 10px;
+      }
+
+      .progress-track {
+        width: 100%;
+        height: 8px;
+        background: #dce3ee;
+        border-radius: 999px;
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        width: 0%;
+        height: 100%;
+        background: #006fcf;
+        transition: width 0.2s ease;
+      }
+
+      .progress-text {
+        margin-top: 6px;
+        font-size: 12px;
+        color: #3b4459;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .checkbox-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        margin-bottom: 12px;
+        font-size: 12px;
+        color: #3b4459;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .checkbox-row input {
+        margin: 2px 0 0;
+        accent-color: #006fcf;
+        cursor: pointer;
+      }
+
+      .actions {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .primary-btn {
+        width: 100%;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 14px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #ffffff;
+        background: #006fcf;
+        cursor: pointer;
+        transition: background 0.15s ease;
+      }
+
+      .primary-btn:hover:not(:disabled) {
+        background: #005bb0;
+      }
+
+      .primary-btn:disabled {
+        background: #9ec5ea;
+        cursor: not-allowed;
+      }
+
+      .primary-btn.stop {
+        background: #dc3545;
+      }
+
+      .primary-btn.stop:hover:not(:disabled) {
+        background: #bb2d3b;
+      }
+
+      .secondary-btn {
+        width: 100%;
+        border: 1px solid #006fcf;
+        border-radius: 8px;
+        padding: 8px 12px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #006fcf;
+        background: #ffffff;
+        cursor: pointer;
+      }
+
+      .secondary-btn:hover {
+        background: #f0f7ff;
+      }
+
+      .summary {
+        margin-top: 10px;
+        padding: 8px 10px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      .summary.success {
+        background: #e8f5ee;
+        color: #146c43;
+        border: 1px solid #badbcc;
+      }
+
+      .summary.warn {
+        background: #fff3cd;
+        color: #664d03;
+        border: 1px solid #ffecb5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>Amex Offer Adder</h1>
+      <button id="refreshBtn" class="icon-btn" type="button" title="Rescan current page">
+        Refresh
+      </button>
+    </div>
+
+    <div id="statusCard" class="card">
+      <div id="offerCount" class="offer-count">Scanning page...</div>
+      <div id="offerSubtext" class="offer-subtext"></div>
+      <div id="progressWrap" class="progress-wrap" hidden>
+        <div class="progress-track">
+          <div id="progressBar" class="progress-fill"></div>
+        </div>
+        <div id="progressText" class="progress-text"></div>
+      </div>
+    </div>
+
+    <label class="checkbox-row">
+      <input type="checkbox" id="skipBonus" checked />
+      <span>Skip "Bonus Membership Rewards Points Offer"</span>
+    </label>
+
+    <div class="actions">
+      <button id="addAll" class="primary-btn" type="button" disabled>Add All Offers</button>
+      <button id="openAmexLink" class="secondary-btn" type="button" hidden>
+        Open American Express Offers
+      </button>
+    </div>
+
+    <div id="summaryMsg" class="summary" hidden></div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
